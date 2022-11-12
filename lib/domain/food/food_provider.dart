@@ -3,6 +3,8 @@ abstract class FoodProvider {
 
   Future<List> getRestaurantList();
 
+  Future<List> getReviewList(int restaurantId);
+
   Future recommendRestaurant();
 
   Future registerReview();

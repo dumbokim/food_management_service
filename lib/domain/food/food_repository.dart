@@ -1,15 +1,25 @@
-import '../../data/data.dart';
+import 'dto/dto.dart';
 
 abstract class FoodRepository {
   List<FoodDto> get getFoodList;
 
   List<RestaurantDto> get getRestaurantList;
 
-  Future<List<FoodDto>> fetchFoodList();
+  List<ReviewDto> getReviewList(int restaurantId);
 
-  Future<List<RestaurantDto>> fetchRestaurantList();
+  set setSelectedRestaurant(int restaurantId);
 
-  Future recommendRestaurant();
+  int get selectedRestaurantId;
 
-  Future registerReview();
+  RestaurantDto get selectedRestaurant;
+
+  Future<void> fetchFoodList();
+
+  Future<void> fetchRestaurantList();
+
+  Future<void> fetchRestaurantReviewList(int restaurantId);
+
+  Future<void> recommendRestaurant();
+
+  Future<void> registerReview();
 }

@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:food_management_service/pages/main/list/review_list.dart';
-
-import '../../../data/data.dart';
+import 'package:food_management_service/pages/main/list/list.dart';
 import 'restaurant_list.dart';
 
 class ListPage extends StatefulWidget {
@@ -17,7 +15,7 @@ class _ListPageState extends State<ListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return  DefaultTabController(
+    return DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: AppBar(
@@ -25,7 +23,7 @@ class _ListPageState extends State<ListPage> {
           foregroundColor: Colors.purple,
           centerTitle: true,
           title: const Text(
-           '목록',
+            '목록',
             style: TextStyle(
               fontWeight: FontWeight.w600,
             ),
@@ -37,8 +35,8 @@ class _ListPageState extends State<ListPage> {
               setState(() => _currentIndex = index);
             },
             tabs: const [
-              Tab(icon: Icon(Icons.fork_left)),
-              Tab(icon: Icon(CupertinoIcons.leaf_arrow_circlepath)),
+              Tab(icon: Icon(CupertinoIcons.house_fill)),
+              Tab(icon: Icon(CupertinoIcons.pencil_ellipsis_rectangle)),
             ],
           ),
         ),
@@ -46,7 +44,7 @@ class _ListPageState extends State<ListPage> {
           index: _currentIndex,
           children: const [
             RestaurantListPage(),
-            ReviewListPage(),
+            TempListPage(),
           ],
         ),
       ),

@@ -26,6 +26,17 @@ class FoodNetworkProvider implements FoodProvider {
   }
 
   @override
+  Future<List> getReviewList(int restaurantId) async {
+    final data = await database
+        .from('review')
+        .select('id, title, content, menu, score')
+        .eq('restaurant', restaurantId)
+    as List?;
+
+    return data ?? [];
+  }
+
+  @override
   Future recommendRestaurant() async {}
 
   @override

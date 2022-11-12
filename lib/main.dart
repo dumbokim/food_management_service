@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (context) => SplashPage(),
           '/main': (context) => MainPage(),
+          '/restaurant/review': (context) => ReviewListPage(),
         },
       ),
     );

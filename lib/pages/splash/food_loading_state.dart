@@ -1,4 +1,4 @@
-import '../../data/data.dart';
+import '../../domain/domain.dart';
 
 class FoodLoadingState {}
 

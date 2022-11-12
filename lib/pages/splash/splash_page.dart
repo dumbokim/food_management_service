@@ -90,6 +90,7 @@ class FoodLoadingNotifier extends riv.StateNotifier<FoodLoadingState> {
       await repository.fetchFoodList();
       state = FoodLoadingStateLoading('2차 데이터 불러오는 중..');
       await repository.fetchRestaurantList();
+      await repository.fetchRestaurantList();
       state = FoodLoadingStateFetched(
         foodList: repository.getFoodList,
         restaurantList: repository.getRestaurantList,

@@ -1,7 +1,8 @@
-import 'package:food_management_service/data/data.dart';
+import '../dto.dart';
 
 class RestaurantDto {
   RestaurantDto({
+    required this.id,
     required this.name,
     required this.food,
     required this.description,
@@ -9,6 +10,7 @@ class RestaurantDto {
     required this.longitude,
   });
 
+  final int id;
   final String name;
   final FoodDto food;
   final String description;
