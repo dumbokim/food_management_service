@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:food_management_service/pages/main/random/random_food.dart';
-import 'package:food_management_service/pages/main/random/random_restaurant.dart';
-import 'package:food_management_service/pages/main/random/random_type_page.dart';
+import 'package:food_ppopgi/pages/main/random/random_food.dart';
+import 'package:food_ppopgi/pages/main/random/random_restaurant.dart';
+import 'package:food_ppopgi/pages/main/random/random_type_page.dart';
 
 class RandomPage extends StatefulWidget {
   const RandomPage({Key? key}) : super(key: key);

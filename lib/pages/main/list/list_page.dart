@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:food_management_service/pages/main/list/list.dart';
+import 'package:food_ppopgi/pages/main/list/list.dart';
 import 'restaurant_list.dart';
 
 class ListPage extends StatefulWidget {

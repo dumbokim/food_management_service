@@ -21,5 +21,5 @@ abstract class FoodRepository {
 
   Future<void> recommendRestaurant();
 
-  Future<void> registerReview();
+  Future<void> registerReview(RegisterReviewDto reviewDto);
 }

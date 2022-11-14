@@ -1,5 +1,5 @@
-import 'package:food_management_service/domain/domain.dart';
-import 'package:food_management_service/domain/food/dto/food/menu_dto.dart';
+import 'package:food_ppopgi/domain/domain.dart';
+import 'package:food_ppopgi/domain/food/dto/food/menu_dto.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart' as riv;
 
 class FoodDataRepository implements FoodRepository {
@@ -119,7 +119,7 @@ class FoodDataRepository implements FoodRepository {
   }
 
   @override
-  Future<void> registerReview() async {
-    return await foodProvider.registerReview();
+  Future<void> registerReview(RegisterReviewDto reviewDto) async {
+    return await foodProvider.registerReview(reviewDto);
   }
 }

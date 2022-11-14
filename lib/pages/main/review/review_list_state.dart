@@ -1,4 +1,4 @@
-import 'package:food_management_service/domain/domain.dart';
+import 'package:food_ppopgi/domain/domain.dart';
 
 class ReviewListState {}
 

@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:food_management_service/pages/splash/splash_page.dart';
+import 'package:food_ppopgi/pages/splash/splash_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'widget/rotation_button.dart';
@@ -111,6 +113,18 @@ class _RandomTypePageState extends ConsumerState<RandomTypePage> {
                   });
                 },
               ),
+              Container(
+                child: AdmobBanner(
+                  adUnitId: dotenv.get('ADMOB_BANNER_ID'),
+                  adSize: AdmobBannerSize.BANNER,
+                  onBannerCreated: (AdmobBannerController controller) {
+                    // Dispose is called automatically for you when Flutter removes the banner from the widget tree.
+                    // Normally you don't need to worry about disposing this yourself, it's handled.
+                    // If you need direct access to dispose, this is your guy!
+                    // controller.dispose();
+                  },
+                ),
+              )
             ],
           ),
         );

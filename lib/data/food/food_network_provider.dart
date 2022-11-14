@@ -30,8 +30,7 @@ class FoodNetworkProvider implements FoodProvider {
     final data = await database
         .from('review')
         .select('id, title, content, menu, score')
-        .eq('restaurant', restaurantId)
-    as List?;
+        .eq('restaurant', restaurantId) as List?;
 
     return data ?? [];
   }
@@ -40,5 +39,12 @@ class FoodNetworkProvider implements FoodProvider {
   Future recommendRestaurant() async {}
 
   @override
-  Future registerReview() async {}
+  Future registerReview(RegisterReviewDto reviewDto) async {
+    await database.from('review').insert({
+      'restaurant': reviewDto.id,
+      'title': reviewDto.title,
+      'content': reviewDto.content,
+      'score': reviewDto.score,
+    });
+  }
 }

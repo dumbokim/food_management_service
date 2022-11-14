@@ -1,19 +1,15 @@
 import 'package:food_ppopgi/domain/food/dto/food/menu_dto.dart';
 
-class ReviewDto {
-  ReviewDto({
-    required this.id,
-    this.reviewer,
+class RegisterReviewDto {
+  RegisterReviewDto({
     required this.title,
     required this.content,
-    this.menu,
-    this.score = 0,
+    required this.id,
+    required this.score,
   });
 
   final int id;
-  final String? reviewer;
   final String title;
   final String content;
-  final MenuDto? menu;
   final int score;
 }

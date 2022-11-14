@@ -1,11 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dbk.food_management_service">
+    package="com.dbk.food_ppopgi">
    <application
-        android:label="FMS"
+        android:label="음식뽑기"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY"
-           android:value="AIzaSyCvzbyYGiIY4yBKnLzUlkj12zLjYl6d0-I"/>
+            android:value="${googleMapApiKey}"/>
+       <meta-data
+           android:name="com.google.android.gms.ads.APPLICATION_ID"
+           android:value="${admobKey}"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

@@ -3,8 +3,8 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:food_management_service/pages/main/random/random.dart';
-import 'package:food_management_service/pages/splash/splash_page.dart';
+import 'package:food_ppopgi/pages/main/random/random.dart';
+import 'package:food_ppopgi/pages/splash/splash_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../domain/domain.dart';

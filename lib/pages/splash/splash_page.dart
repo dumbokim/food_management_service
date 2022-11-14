@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:food_management_service/data/food/food_data_repository.dart';
-import 'package:food_management_service/data/food/food_network_provider.dart';
-import 'package:food_management_service/domain/domain.dart';
+import 'package:food_ppopgi/data/food/food_data_repository.dart';
+import 'package:food_ppopgi/data/food/food_network_provider.dart';
+import 'package:food_ppopgi/domain/domain.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart' as riv;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -39,7 +39,7 @@ class SplashPage extends riv.ConsumerWidget {
         children: [
           Center(
             child: Image.asset(
-              'assets/fms.png',
+              'assets/logo.png',
               width: 100,
               height: 100,
             ),

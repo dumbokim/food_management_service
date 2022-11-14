@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:food_management_service/pages/main/map/map_page.dart';
-import 'package:food_management_service/pages/main/random/random_page.dart';
+import 'package:food_ppopgi/pages/main/map/map_page.dart';
+import 'package:food_ppopgi/pages/main/random/random_page.dart';
 
 import 'list/list_page.dart';
 

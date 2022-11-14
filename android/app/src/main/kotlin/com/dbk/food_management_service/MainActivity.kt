@@ -1,4 +1,4 @@
-package com.dbk.food_management_service
+package com.dbk.food_ppopgi
 
 import io.flutter.embedding.android.FlutterActivity
 

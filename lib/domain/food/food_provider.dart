@@ -1,3 +1,5 @@
+import 'dto/food/register_review_dto.dart';
+
 abstract class FoodProvider {
   Future<List> getFoodList();
 
@@ -7,5 +9,5 @@ abstract class FoodProvider {
 
   Future recommendRestaurant();
 
-  Future registerReview();
+  Future registerReview(RegisterReviewDto reviewDto);
 }
