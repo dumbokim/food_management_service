@@ -43,6 +43,11 @@ class FoodDataRepository implements FoodRepository {
       _restaurants.firstWhere((element) => element.id == _selectedRestaurant);
 
   @override
+  Future<void> adoptRestaurant(int restaurantId) async {
+    await foodProvider.adoptRestaurant(restaurantId);
+  }
+
+  @override
   Future<void> fetchFoodList() async {
     final data = await foodProvider.getFoodList();
 
@@ -74,7 +79,8 @@ class FoodDataRepository implements FoodRepository {
             longitude: restaurantData?['longitude'],
           ),
         )
-        .toList();
+        .toList()
+      ..shuffle();
 
     _restaurants.clear();
     _restaurants.addAll(restaurantDtoList);

@@ -10,4 +10,6 @@ abstract class FoodProvider {
   Future recommendRestaurant();
 
   Future registerReview(RegisterReviewDto reviewDto);
+
+  Future adoptRestaurant(int restaurantId);
 }

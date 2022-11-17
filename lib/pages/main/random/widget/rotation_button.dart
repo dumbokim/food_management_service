@@ -3,9 +3,11 @@ import 'package:flutter/cupertino.dart';
 class RotationButton extends StatelessWidget {
   RotationButton({
     Key? key,
+    this.text = '',
     this.onPressed,
   }) : super(key: key);
 
+  final String text;
   VoidCallback? onPressed;
 
   @override
@@ -18,9 +20,9 @@ class RotationButton extends StatelessWidget {
         vertical: 16,
       ),
       borderRadius: BorderRadius.circular(20),
-      child: const Text(
-        '돌리기',
-        style: TextStyle(color: CupertinoColors.white),
+      child: Text(
+        text,
+        style: const TextStyle(color: CupertinoColors.white),
       ),
     );
   }

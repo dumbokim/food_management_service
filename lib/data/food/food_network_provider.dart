@@ -47,4 +47,11 @@ class FoodNetworkProvider implements FoodProvider {
       'score': reviewDto.score,
     });
   }
+
+  @override
+  Future adoptRestaurant(int restaurantId) async {
+    await database.from('restaurant_adoption').insert({
+      'restaurant_id': restaurantId,
+    });
+  }
 }

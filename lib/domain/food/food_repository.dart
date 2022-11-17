@@ -13,6 +13,8 @@ abstract class FoodRepository {
 
   RestaurantDto get selectedRestaurant;
 
+  Future<void> adoptRestaurant(int restaurantId);
+
   Future<void> fetchFoodList();
 
   Future<void> fetchRestaurantList();

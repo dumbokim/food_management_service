@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:food_ppopgi/common/common.dart';
 import 'package:food_ppopgi/pages/main/random/random.dart';
 import 'package:food_ppopgi/pages/splash/splash_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -19,6 +20,7 @@ class _RandomFoodPageState extends ConsumerState<RandomFoodPage> {
   bool _started = false;
   bool _rotating = false;
   final random = Random();
+  Timer? _timer;
 
   @override
   void initState() {
@@ -40,89 +42,117 @@ class _RandomFoodPageState extends ConsumerState<RandomFoodPage> {
     final foodList = repository.getFoodList;
     return CupertinoTabView(
       builder: (BuildContext context) {
-        return Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                _started
-                    ? _rotating
-                        ? '선택중'
-                        : foodList[_selectedIndex].food
-                    : '선택하기',
-                style: const TextStyle(
-                  fontSize: 26,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 50),
-              Container(
-                height: 220,
-                width: 220,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: _started && _rotating
-                        ? Colors.transparent
-                        : Colors.purple.withOpacity(0.6),
-                    width: _started && _rotating ? 0 : 4,
+        return Stack(
+          alignment: Alignment.center,
+          children: [
+            Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    _started
+                        ? _rotating
+                            ? '선택중'
+                            : foodList[_selectedIndex].food
+                        : '선택하기',
+                    style: const TextStyle(
+                      fontSize: 26,
+                      color: Colors.black,
+                    ),
                   ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Center(
-                  child: _started
-                      ? _rotating
-                          ? Image.asset(
-                              'assets/spin.gif',
-                              fit: BoxFit.fill,
-                            )
-                          : Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  foodList[_selectedIndex].food,
-                                  style: const TextStyle(
-                                    color: Colors.purple,
-                                    fontSize: 35,
-                                  ),
-                                ),
-                                const SizedBox(height: 10),
-                                Text(
-                                  foodList[_selectedIndex].foodType,
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ],
-                            )
-                      : const Text(
-                          '?',
-                          style: TextStyle(
-                            color: Colors.purple,
-                            fontSize: 35,
-                          ),
+                  const SizedBox(height: 50),
+                  GestureDetector(
+                    onTap: () {
+                      if (_timer?.isActive ?? false) {
+                        _timer?.cancel;
+                      }
+
+                      if (_rotating == true) {
+                        setState(() {
+                          _rotating = false;
+                        });
+                      }
+                    },
+                    child: Container(
+                      height: 220,
+                      width: 220,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: _started && _rotating
+                              ? Colors.transparent
+                              : Colors.purple.withOpacity(0.6),
+                          width: _started && _rotating ? 0 : 4,
                         ),
-                ),
-              ),
-              const SizedBox(height: 50),
-              RotationButton(
-                onPressed: () {
-                  setState(() {
-                    if (!_started) {
-                      _started = true;
-                    }
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                        child: _started
+                            ? _rotating
+                                ? Image.asset(
+                                    'assets/spin.gif',
+                                    fit: BoxFit.fill,
+                                  )
+                                : Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        foodList[_selectedIndex].food,
+                                        style: const TextStyle(
+                                          color: Colors.purple,
+                                          fontSize: 35,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Text(
+                                        foodList[_selectedIndex].foodType,
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                            : const Text(
+                                '?',
+                                style: TextStyle(
+                                  color: Colors.purple,
+                                  fontSize: 35,
+                                ),
+                              ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 50),
+                  RotationButton(
+                    text: '돌리기',
+                    onPressed: () {
+                      setState(() {
+                        if (!_started) {
+                          _started = true;
+                        }
 
-                    _rotating = true;
+                        _rotating = true;
+                      });
 
-                    Future.delayed(const Duration(seconds: 2), () {
                       selected.add(random.nextInt(999999) % foodList.length);
-                      _rotating = false;
-                    });
-                  });
-                },
-              )
-            ],
-          ),
+
+                      _timer = Timer(const Duration(seconds: 2), () {
+                        setState(() {
+                          _rotating = false;
+                        });
+                      });
+                    },
+                  )
+                ],
+              ),
+            ),
+            const Positioned(
+              left: 0,
+              right: 0,
+              top: 0,
+              child: AdmobBannerView(),
+            ),
+          ],
         );
       },
     );

@@ -14,9 +14,7 @@ Future<void> main() async {
 
   Admob.initialize();
 
-  await dotenv.load(
-      fileName:
-          ".env"); // mergeWith optional, you can include Platform.environment for Mobile/Desktop app
+  await dotenv.load(fileName: ".env");
 
   final supabaseKey = dotenv.get('SUPABASE_KEY');
 
