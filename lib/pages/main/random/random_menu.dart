@@ -9,7 +9,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../domain/domain.dart';
 
-
 class RandomMenuPage extends ConsumerStatefulWidget {
   const RandomMenuPage({Key? key}) : super(key: key);
 
@@ -46,6 +45,7 @@ class _RandomMenuPageState extends ConsumerState<RandomMenuPage> {
     return CupertinoTabView(
       builder: (BuildContext context) {
         return Container(
+          color: Colors.white,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

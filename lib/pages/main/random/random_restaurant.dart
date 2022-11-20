@@ -5,10 +5,15 @@ import 'dart:developer' as developer;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_ppopgi/common/common.dart';
+import 'package:food_ppopgi/data/data.dart';
+import 'package:food_ppopgi/domain/food/model/adoption.dart';
 import 'package:food_ppopgi/pages/main/random/random.dart';
 import 'package:food_ppopgi/pages/splash/splash_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:isar/isar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../domain/domain.dart';
 
 class RandomRestaurantPage extends ConsumerStatefulWidget {
   const RandomRestaurantPage({Key? key}) : super(key: key);
@@ -25,6 +30,8 @@ class _RandomRestaurantPageState extends ConsumerState<RandomRestaurantPage> {
   bool _rotating = false;
   final random = Random();
   Timer? _timer;
+
+  bool _adoptButtonDisabled = false;
 
   @override
   void initState() {
@@ -52,6 +59,7 @@ class _RandomRestaurantPageState extends ConsumerState<RandomRestaurantPage> {
           alignment: Alignment.center,
           children: [
             Container(
+              color: Colors.white,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -149,17 +157,33 @@ class _RandomRestaurantPageState extends ConsumerState<RandomRestaurantPage> {
                     children: [
                       RotationButton(
                         text: '돌리기',
-                        onPressed: () {
+                        onPressed: () async {
                           setState(() {
                             if (!_started) {
                               _started = true;
                             }
 
                             _rotating = true;
+                            _adoptButtonDisabled = false;
                           });
 
-                          selected.add(
-                              random.nextInt(999999) % restaurantList.length);
+                          final isar = await ref.read(isarProvider.future);
+
+                          final adoptedList = await isar.adoptions
+                              .where()
+                              .adoptedDateGreaterThan(DateTime.now())
+                              .findAll();
+
+                          final adoptedIds = adoptedList.map((e) => e.id);
+
+                          final datas = List<RestaurantDto>.from(restaurantList)
+                              .where(
+                                  (element) => !adoptedIds.contains(element.id))
+                              .toList();
+
+                          datas.shuffle();
+
+                          selected.add(datas[0].id);
 
                           _timer = Timer(const Duration(seconds: 2), () {
                             setState(() {
@@ -172,6 +196,7 @@ class _RandomRestaurantPageState extends ConsumerState<RandomRestaurantPage> {
                         SizedBox(width: 20),
                         RotationButton(
                           text: '채택',
+                          disabled: _adoptButtonDisabled,
                           onPressed: () async {
                             try {
                               final targetId =
@@ -182,21 +207,20 @@ class _RandomRestaurantPageState extends ConsumerState<RandomRestaurantPage> {
                               showDefaultSnackBar(context,
                                   content: '메뉴가 채택되었습니다!');
 
-                              final pref =
-                                  await SharedPreferences.getInstance();
+                              final isar = await ref.read(isarProvider.future);
 
-                              final adoptedRestaurants =
-                                  pref.getStringList('adoptedRestaurants') ??
-                                      [];
+                              final adoptionData = Adoption()
+                                ..restaurantId = targetId
+                                ..restaurant =
+                                    restaurantList[_selectedIndex].name
+                                ..adoptedDate = (DateTime.now());
 
-                              if (adoptedRestaurants.contains('$targetId')) {
-                                return;
-                              }
+                              await isar.writeTxn(() async =>
+                                  await isar.adoptions.put(adoptionData));
 
-                              adoptedRestaurants.add('$targetId');
-
-                              await pref.setStringList(
-                                  'adoptedRestaurants', adoptedRestaurants);
+                              setState(() {
+                                _adoptButtonDisabled = true;
+                              });
                             } catch (e) {
                               developer.log('error occurred: $e');
                               showDefaultSnackBar(

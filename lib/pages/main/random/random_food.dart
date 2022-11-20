@@ -46,6 +46,7 @@ class _RandomFoodPageState extends ConsumerState<RandomFoodPage> {
           alignment: Alignment.center,
           children: [
             Container(
+              color: Colors.white,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

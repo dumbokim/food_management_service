@@ -4,16 +4,18 @@ class RotationButton extends StatelessWidget {
   RotationButton({
     Key? key,
     this.text = '',
+    this.disabled = false,
     this.onPressed,
   }) : super(key: key);
 
   final String text;
+  final bool disabled;
   VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
-      onPressed: onPressed,
+      onPressed: disabled ? null : onPressed,
       color: CupertinoColors.systemPurple,
       padding: const EdgeInsets.symmetric(
         horizontal: 20,

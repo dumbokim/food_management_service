@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:food_ppopgi/pages/adoption/adoption.dart';
 import 'package:food_ppopgi/pages/main/review/register_review.dart';
 import 'package:food_ppopgi/pages/pages.dart';
 import 'package:food_ppopgi/pages/splash/splash_page.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
           '/main': (context) => MainPage(),
           '/restaurant/review': (context) => ReviewListPage(),
           '/restaurant/review/register': (context) => RegisterReviewPage(),
+          '/adoption/list': (context) => AdoptionListPage(),
         },
       ),
     );
