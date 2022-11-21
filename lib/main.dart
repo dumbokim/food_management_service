@@ -8,6 +8,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart' as riv;
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:admob_flutter/admob_flutter.dart';
 
+import 'common/common.dart';
+
 const supabaseUrl = 'https://spvzivxrznsrgqdanbbh.supabase.co';
 
 Future<void> main() async {
@@ -33,12 +35,27 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Food management service',
         theme: ThemeData(
-          primarySwatch: Colors.purple,
+          primarySwatch: MaterialColor(
+            0xFF6508DF,
+            const <int, Color>{
+              50: const Color(0xFF6508DF),
+              100: const Color(0xFF6508DF),
+              200: const Color(0xFF6508DF),
+              300: const Color(0xFF6508DF),
+              400: const Color(0xFF6508DF),
+              500: const Color(0xFF6508DF),
+              600: const Color(0xFF6508DF),
+              700: const Color(0xFF6508DF),
+              800: const Color(0xFF6508DF),
+              900: const Color(0xFF6508DF),
+            },
+          ),
         ),
         initialRoute: '/',
         routes: {
           '/': (context) => SplashPage(),
           '/main': (context) => MainPage(),
+          '/request/register': (context) => RegisterRequestPage(),
           '/restaurant/review': (context) => ReviewListPage(),
           '/restaurant/review/register': (context) => RegisterReviewPage(),
           '/adoption/list': (context) => AdoptionListPage(),

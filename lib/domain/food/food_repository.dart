@@ -24,4 +24,6 @@ abstract class FoodRepository {
   Future<void> recommendRestaurant();
 
   Future<void> registerReview(RegisterReviewDto reviewDto);
+
+  Future<void> registerRequest(String content);
 }

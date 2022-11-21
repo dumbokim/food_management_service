@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:food_ppopgi/common/common.dart';
 import 'package:food_ppopgi/pages/splash/splash_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'widget/rotation_button.dart';
 
@@ -50,21 +49,10 @@ class _RandomTypePageState extends ConsumerState<RandomTypePage> {
           alignment: Alignment.center,
           children: [
             Container(
+              color: Colors.white,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    _started
-                        ? _rotating
-                            ? '선택중'
-                            : foodList[_selectedIndex].foodType
-                        : '선택하기',
-                    style: const TextStyle(
-                      fontSize: 26,
-                      color: Colors.black,
-                    ),
-                  ),
-                  const SizedBox(height: 50),
                   GestureDetector(
                     onTap: () {
                       if (_timer?.isActive ?? false) {
@@ -84,7 +72,7 @@ class _RandomTypePageState extends ConsumerState<RandomTypePage> {
                         border: Border.all(
                           color: _started && _rotating
                               ? Colors.transparent
-                              : Colors.purple.withOpacity(0.6),
+                              : Color(0x4c06a7).withOpacity(0.6),
                           width: _started && _rotating ? 0 : 4,
                         ),
                         borderRadius: BorderRadius.circular(10),
@@ -99,14 +87,14 @@ class _RandomTypePageState extends ConsumerState<RandomTypePage> {
                                 : Text(
                                     foodList[_selectedIndex].foodType,
                                     style: const TextStyle(
-                                      color: Colors.purple,
+                                      color: defaultColor,
                                       fontSize: 35,
                                     ),
                                   )
                             : const Text(
                                 '?',
                                 style: TextStyle(
-                                  color: Colors.purple,
+                                  color: defaultColor,
                                   fontSize: 35,
                                 ),
                               ),

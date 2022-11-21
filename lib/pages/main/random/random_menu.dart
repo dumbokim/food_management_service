@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:food_ppopgi/common/common.dart';
 import 'package:food_ppopgi/pages/main/random/random.dart';
 import 'package:food_ppopgi/pages/splash/splash_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -64,7 +65,7 @@ class _RandomMenuPageState extends ConsumerState<RandomMenuPage> {
                   border: Border.all(
                     color: _started && _rotating
                         ? Colors.transparent
-                        : Colors.purple.withOpacity(0.6),
+                        : defaultColor.withOpacity(0.6),
                     width: _started && _rotating ? 0 : 4,
                   ),
                   borderRadius: BorderRadius.circular(10),
@@ -82,7 +83,7 @@ class _RandomMenuPageState extends ConsumerState<RandomMenuPage> {
                                 Text(
                                   _items[_selectedIndex].food,
                                   style: const TextStyle(
-                                    color: Colors.purple,
+                                    color: defaultColor,
                                     fontSize: 35,
                                   ),
                                 ),
@@ -99,7 +100,7 @@ class _RandomMenuPageState extends ConsumerState<RandomMenuPage> {
                       : const Text(
                           '?',
                           style: TextStyle(
-                            color: Colors.purple,
+                            color: defaultColor,
                             fontSize: 35,
                           ),
                         ),

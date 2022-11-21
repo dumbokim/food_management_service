@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:food_ppopgi/pages/main/main.dart';
 import 'package:food_ppopgi/pages/main/map/map_page.dart';
 import 'package:food_ppopgi/pages/main/random/random_page.dart';
 
-import 'list/list_page.dart';
+import '../../common/common.dart';
+import 'list/list.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -18,10 +20,23 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          RegisterButton(
+            onTap: () {
+              Navigator.pushNamed(context, '/request/register');
+            },
+            text: '요청사항 작성',
+          ),
+          const SizedBox(height: 60),
+        ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: SafeArea(
         child: CupertinoTabScaffold(
           tabBar: CupertinoTabBar(
-            backgroundColor: Colors.purple.withOpacity(0.8),
+            backgroundColor: defaultColor.withOpacity(0.8),
             activeColor: Colors.white,
             inactiveColor: Colors.white70,
             height: 60,
@@ -33,7 +48,7 @@ class _MainPageState extends State<MainPage> {
             },
             border: Border(
                 top: BorderSide(
-              color: CupertinoColors.systemPurple.withOpacity(0.6),
+              color: defaultColor.withOpacity(0.6),
               width: 3,
             )),
             items: const <BottomNavigationBarItem>[
@@ -55,7 +70,7 @@ class _MainPageState extends State<MainPage> {
             if (index == 0) {
               return RandomPage();
             } else if (index == 1) {
-              return ListPage();
+              return RestaurantListPage();
             } else if (index == 2) {
               return MapPage();
             } else {

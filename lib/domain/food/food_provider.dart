@@ -12,4 +12,6 @@ abstract class FoodProvider {
   Future registerReview(RegisterReviewDto reviewDto);
 
   Future adoptRestaurant(int restaurantId);
+
+  Future<void> registerRequest(String content);
 }

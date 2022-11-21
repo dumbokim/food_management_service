@@ -128,4 +128,9 @@ class FoodDataRepository implements FoodRepository {
   Future<void> registerReview(RegisterReviewDto reviewDto) async {
     return await foodProvider.registerReview(reviewDto);
   }
+
+  @override
+  Future<void> registerRequest(String content) async {
+    return await foodProvider.registerRequest(content);
+  }
 }

@@ -11,7 +11,6 @@ import 'package:food_ppopgi/pages/main/random/random.dart';
 import 'package:food_ppopgi/pages/splash/splash_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:isar/isar.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../domain/domain.dart';
 
@@ -63,18 +62,6 @@ class _RandomRestaurantPageState extends ConsumerState<RandomRestaurantPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    _started
-                        ? _rotating
-                            ? '선택중'
-                            : restaurantList[_selectedIndex].name
-                        : '선택하기',
-                    style: const TextStyle(
-                      fontSize: 26,
-                      color: Colors.black,
-                    ),
-                  ),
-                  const SizedBox(height: 50),
                   GestureDetector(
                     onTap: () {
                       if (_timer?.isActive ?? false) {
@@ -94,7 +81,7 @@ class _RandomRestaurantPageState extends ConsumerState<RandomRestaurantPage> {
                         border: Border.all(
                           color: _started && _rotating
                               ? Colors.transparent
-                              : Colors.purple.withOpacity(0.6),
+                              : defaultColor.withOpacity(0.6),
                           width: _started && _rotating ? 0 : 4,
                         ),
                         borderRadius: BorderRadius.circular(10),
@@ -112,7 +99,7 @@ class _RandomRestaurantPageState extends ConsumerState<RandomRestaurantPage> {
                                       Text(
                                         restaurantList[_selectedIndex].name,
                                         style: const TextStyle(
-                                          color: Colors.purple,
+                                          color:defaultColor,
                                           fontSize: 35,
                                         ),
                                       ),
@@ -134,6 +121,7 @@ class _RandomRestaurantPageState extends ConsumerState<RandomRestaurantPage> {
                                             ? ''
                                             : restaurantList[_selectedIndex]
                                                 .description,
+                                        textAlign: TextAlign.center,
                                         style: const TextStyle(
                                           fontSize: 18,
                                           color: Colors.black,
@@ -144,7 +132,7 @@ class _RandomRestaurantPageState extends ConsumerState<RandomRestaurantPage> {
                             : const Text(
                                 '?',
                                 style: TextStyle(
-                                  color: Colors.purple,
+                                  color: defaultColor,
                                   fontSize: 35,
                                 ),
                               ),
@@ -155,50 +143,52 @@ class _RandomRestaurantPageState extends ConsumerState<RandomRestaurantPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      RotationButton(
-                        text: '돌리기',
-                        onPressed: () async {
-                          setState(() {
-                            if (!_started) {
-                              _started = true;
-                            }
-
-                            _rotating = true;
-                            _adoptButtonDisabled = false;
-                          });
-
-                          final isar = await ref.read(isarProvider.future);
-
-                          final adoptedList = await isar.adoptions
-                              .where()
-                              .adoptedDateGreaterThan(DateTime.now()
-                                  .subtract(Duration(days: 7))
-                                  .millisecondsSinceEpoch)
-                              .findAll();
-
-                          final adoptedIds =
-                              adoptedList.map((e) => e.restaurantId);
-
-                          final datas = List<RestaurantDto>.from(restaurantList)
-                              .where(
-                                  (element) => !adoptedIds.contains(element.id))
-                              .toList();
-
-                          datas.shuffle();
-                          datas.shuffle();
-
-                          final a = restaurantList.indexWhere(
-                              (element) => element.id == datas[0].id);
-
-                          selected.add(a);
-
-                          _timer = Timer(const Duration(seconds: 2), () {
+                      if (!_rotating)
+                        RotationButton(
+                          text: '돌리기',
+                          onPressed: () async {
                             setState(() {
-                              _rotating = false;
+                              if (!_started) {
+                                _started = true;
+                              }
+
+                              _rotating = true;
+                              _adoptButtonDisabled = false;
                             });
-                          });
-                        },
-                      ),
+
+                            final isar = await ref.read(isarProvider.future);
+
+                            final adoptedList = await isar.adoptions
+                                .where()
+                                .adoptedDateGreaterThan(DateTime.now()
+                                    .subtract(Duration(days: 7))
+                                    .millisecondsSinceEpoch)
+                                .findAll();
+
+                            final adoptedIds =
+                                adoptedList.map((e) => e.restaurantId);
+
+                            final datas =
+                                List<RestaurantDto>.from(restaurantList)
+                                    .where((element) =>
+                                        !adoptedIds.contains(element.id))
+                                    .toList();
+
+                            datas.shuffle();
+                            datas.shuffle();
+
+                            final a = restaurantList.indexWhere(
+                                (element) => element.id == datas[0].id);
+
+                            selected.add(a);
+
+                            _timer = Timer(const Duration(seconds: 2), () {
+                              setState(() {
+                                _rotating = false;
+                              });
+                            });
+                          },
+                        ),
                       if (_started && !_rotating) ...[
                         SizedBox(width: 20),
                         RotationButton(

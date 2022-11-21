@@ -58,6 +58,13 @@ class FoodNetworkProvider implements FoodProvider {
       'restaurant_id': restaurantId,
     });
   }
+
+  @override
+  Future<void> registerRequest(String content) async {
+    await database.from('request').insert({
+      'content' : content,
+    });
+  }
 }
 
 final isarProvider = FutureProvider((ref) async {

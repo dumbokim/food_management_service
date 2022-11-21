@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
+import '../../../../common/common.dart';
+
 class RotationButton extends StatelessWidget {
   RotationButton({
     Key? key,
@@ -16,7 +18,7 @@ class RotationButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoButton(
       onPressed: disabled ? null : onPressed,
-      color: CupertinoColors.systemPurple,
+      color: defaultColor,
       padding: const EdgeInsets.symmetric(
         horizontal: 20,
         vertical: 16,
@@ -24,7 +26,10 @@ class RotationButton extends StatelessWidget {
       borderRadius: BorderRadius.circular(20),
       child: Text(
         text,
-        style: const TextStyle(color: CupertinoColors.white),
+        style: const TextStyle(
+          color: CupertinoColors.white,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }

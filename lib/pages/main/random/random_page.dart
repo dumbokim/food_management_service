@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:food_ppopgi/common/common.dart';
+import 'package:food_ppopgi/pages/main/main.dart';
 import 'package:food_ppopgi/pages/main/random/random_food.dart';
 import 'package:food_ppopgi/pages/main/random/random_restaurant.dart';
 import 'package:food_ppopgi/pages/main/random/random_type_page.dart';
@@ -16,9 +18,9 @@ class _RandomPageState extends ConsumerState<RandomPage> {
   int _currentIndex = 0;
 
   final _titles = [
-    '음식 종류 돌림판',
-    '메뉴 돌림판',
     '음식점 돌림판',
+    '음식 종류 돌림판',
+    '음식 돌림판',
   ];
 
   final _pageLoaded = {
@@ -28,7 +30,7 @@ class _RandomPageState extends ConsumerState<RandomPage> {
   };
 
   final _pages = <Widget>[
-    RandomTypePage(),
+    RandomRestaurantPage(),
     SizedBox(),
     SizedBox(),
   ];
@@ -41,22 +43,25 @@ class _RandomPageState extends ConsumerState<RandomPage> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.white,
-          foregroundColor: Colors.purple,
+          foregroundColor: defaultColor,
           centerTitle: true,
           title: Text(
             _titles[_currentIndex],
             style: const TextStyle(fontWeight: FontWeight.w600),
           ),
           actions: [
-            IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/adoption/list');
-                },
-                icon: Text('채택')),
+            Container(
+              margin: const EdgeInsets.all(7),
+              child: RegisterSmButton(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/adoption/list');
+                  },
+                  text: '채택'),
+            ),
           ],
           bottom: TabBar(
-            labelColor: Colors.purple,
-            indicatorColor: Colors.purple,
+            labelColor: defaultColor,
+            indicatorColor: defaultColor,
             onTap: (int index) {
               if (_pageLoaded[1] == true && _pageLoaded[2] == true) {
                 setState(() => _currentIndex = index);
@@ -65,12 +70,12 @@ class _RandomPageState extends ConsumerState<RandomPage> {
 
               if (index == 1 && _pageLoaded[1] == false) {
                 setState(() {
-                  _pages[1] = RandomFoodPage();
+                  _pages[1] = const RandomTypePage();
                   _pageLoaded.update(1, (value) => true);
                 });
               } else if (index == 2 && _pageLoaded[2] == false) {
                 setState(() {
-                  _pages[2] = RandomRestaurantPage();
+                  _pages[2] = const RandomFoodPage();
                   _pageLoaded.update(2, (value) => true);
                 });
               }

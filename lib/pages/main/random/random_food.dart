@@ -50,18 +50,6 @@ class _RandomFoodPageState extends ConsumerState<RandomFoodPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    _started
-                        ? _rotating
-                            ? '선택중'
-                            : foodList[_selectedIndex].food
-                        : '선택하기',
-                    style: const TextStyle(
-                      fontSize: 26,
-                      color: Colors.black,
-                    ),
-                  ),
-                  const SizedBox(height: 50),
                   GestureDetector(
                     onTap: () {
                       if (_timer?.isActive ?? false) {
@@ -81,7 +69,7 @@ class _RandomFoodPageState extends ConsumerState<RandomFoodPage> {
                         border: Border.all(
                           color: _started && _rotating
                               ? Colors.transparent
-                              : Colors.purple.withOpacity(0.6),
+                              : defaultColor.withOpacity(0.6),
                           width: _started && _rotating ? 0 : 4,
                         ),
                         borderRadius: BorderRadius.circular(10),
@@ -99,7 +87,7 @@ class _RandomFoodPageState extends ConsumerState<RandomFoodPage> {
                                       Text(
                                         foodList[_selectedIndex].food,
                                         style: const TextStyle(
-                                          color: Colors.purple,
+                                          color: defaultColor,
                                           fontSize: 35,
                                         ),
                                       ),
@@ -116,7 +104,7 @@ class _RandomFoodPageState extends ConsumerState<RandomFoodPage> {
                             : const Text(
                                 '?',
                                 style: TextStyle(
-                                  color: Colors.purple,
+                                  color: defaultColor,
                                   fontSize: 35,
                                 ),
                               ),
@@ -124,26 +112,32 @@ class _RandomFoodPageState extends ConsumerState<RandomFoodPage> {
                     ),
                   ),
                   const SizedBox(height: 50),
-                  RotationButton(
-                    text: '돌리기',
-                    onPressed: () {
-                      setState(() {
-                        if (!_started) {
-                          _started = true;
-                        }
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      RotationButton(
+                        text: '돌리기',
+                        onPressed: () {
+                          setState(() {
+                            if (!_started) {
+                              _started = true;
+                            }
 
-                        _rotating = true;
-                      });
+                            _rotating = true;
+                          });
 
-                      selected.add(random.nextInt(999999) % foodList.length);
+                          selected
+                              .add(random.nextInt(999999) % foodList.length);
 
-                      _timer = Timer(const Duration(seconds: 2), () {
-                        setState(() {
-                          _rotating = false;
-                        });
-                      });
-                    },
-                  )
+                          _timer = Timer(const Duration(seconds: 2), () {
+                            setState(() {
+                              _rotating = false;
+                            });
+                          });
+                        },
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),

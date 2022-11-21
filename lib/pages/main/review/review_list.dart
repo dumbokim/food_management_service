@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:food_ppopgi/domain/domain.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:food_ppopgi/pages/main/main.dart';
 import 'package:food_ppopgi/pages/splash/splash_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../list/list.dart';
+import '../../../common/common.dart';
 
 class ReviewListPage extends ConsumerWidget {
   ReviewListPage({Key? key}) : super(key: key);
@@ -26,33 +27,17 @@ class ReviewListPage extends ConsumerWidget {
         title: Text(repository.selectedRestaurant.name),
         centerTitle: true,
       ),
-      floatingActionButton: Material(
-        child: Ink(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Colors.purple,
-          ),
-          child: InkWell(
-            onTap: () {
-              Navigator.pushNamed(context, '/restaurant/review/register')
-                  .then((value) {
-                if (value == null) {
-                  return;
-                }
-                read.load();
-              });
-            },
-            borderRadius: BorderRadius.circular(10),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: const Icon(
-                Icons.add_comment_outlined,
-                color: Colors.white,
-                size: 30,
-              ),
-            ),
-          ),
-        ),
+      floatingActionButton: RegisterButton(
+        onTap: () {
+          Navigator.pushNamed(context, '/restaurant/review/register')
+              .then((value) {
+            if (value == null) {
+              return;
+            }
+            read.load();
+          });
+        },
+        text: '리뷰 작성',
       ),
       body: (state is ReviewListStateLoading || state is ReviewListStateInitial)
           ? const Center(
@@ -67,85 +52,66 @@ class ReviewListPage extends ConsumerWidget {
                       style: TextStyle(
                           fontSize: 18, height: 2, color: Colors.grey),
                     ))
-                  : ListView.separated(
-                      itemCount: state.reviewList.length,
-                      separatorBuilder: (BuildContext context, int index) {
-                        return const Divider(
-                          color: Colors.purple,
-                          thickness: 1.5,
-                        );
+                  : RefreshIndicator(
+                      onRefresh: () async {
+                        ref.refresh(notifier);
                       },
-                      itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 12,
-                          ),
-                          decoration: const BoxDecoration(),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    state.reviewList[index].title,
-                                    style: const TextStyle(
-                                      color: Colors.purple,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 20,
+                      child: ListView.separated(
+                        itemCount: state.reviewList.length,
+                        separatorBuilder: (BuildContext context, int index) {
+                          return const Divider(
+                            color: defaultColor,
+                            thickness: 1.5,
+                          );
+                        },
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 12,
+                            ),
+                            decoration: const BoxDecoration(),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      state.reviewList[index].title,
+                                      style: const TextStyle(
+                                        color: defaultColor,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 20,
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(width: 5),
-                                  Text(
-                                    '( ${state.reviewList[index].score}점)',
-                                    style: const TextStyle(
-                                      color: Colors.purple,
-                                      fontSize: 15,
-                                    ),
-                                  )
-                                ],
-                              ),
-                              const SizedBox(height: 7),
-                              Text(
-                                state.reviewList[index].content,
-                                style: const TextStyle(
-                                  fontSize: 15,
+                                    const SizedBox(width: 5),
+                                    Text(
+                                      List.generate(
+                                          state.reviewList[index].score,
+                                          (index) => '🍚').join(),
+                                      style: const TextStyle(
+                                        color: defaultColor,
+                                        fontSize: 15,
+                                      ),
+                                    )
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
-                        );
-                      })
+                                const SizedBox(height: 7),
+                                Text(
+                                  state.reviewList[index].content,
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    )
               : const Center(
                   child: Text('문제가 발생했습니다.'),
                 ),
     );
-  }
-}
-
-class ReviewListStateNotifier extends StateNotifier<ReviewListState> {
-  ReviewListStateNotifier(
-    this.repository,
-  ) : super(ReviewListStateInitial()) {
-    load();
-  }
-
-  final FoodRepository repository;
-
-  Future<void> load() async {
-    state = ReviewListStateLoading();
-    try {
-      await repository
-          .fetchRestaurantReviewList(repository.selectedRestaurantId);
-      state = ReviewListStateFetched(
-          repository.getReviewList(repository.selectedRestaurantId));
-    } catch (e) {
-      state = ReviewListStateFailed();
-    }
-  }
-
-  void getReviewList() {
-    state = ReviewListStateFetched(
-        repository.getReviewList(repository.selectedRestaurantId));
   }
 }

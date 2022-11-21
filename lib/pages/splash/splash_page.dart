@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:food_ppopgi/data/food/food_data_repository.dart';
 import 'package:food_ppopgi/data/food/food_network_provider.dart';
 import 'package:food_ppopgi/domain/domain.dart';
@@ -38,8 +39,8 @@ class SplashPage extends riv.ConsumerWidget {
         alignment: Alignment.center,
         children: [
           Center(
-            child: Image.asset(
-              'assets/logo.png',
+            child: SvgPicture.asset(
+              'assets/logo.svg',
               width: 100,
               height: 100,
             ),

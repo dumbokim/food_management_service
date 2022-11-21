@@ -28,7 +28,7 @@ class MapPage extends ConsumerWidget {
                       markerId: MarkerId(e.name),
                       position: LatLng(e.latitude, e.longitude),
                       icon: BitmapDescriptor.defaultMarkerWithHue(
-                          BitmapDescriptor.hueRose),
+                          280),
                       infoWindow: InfoWindow(
                         title: e.name,
                         snippet: e.description,
