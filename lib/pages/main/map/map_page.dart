@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:food_ppopgi/pages/splash/splash_page.dart';
+import 'package:food_ppopgi/data/food/food_data_repository.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

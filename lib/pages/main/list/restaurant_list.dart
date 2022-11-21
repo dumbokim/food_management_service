@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_ppopgi/common/admob/admob.dart';
+import 'package:food_ppopgi/data/food/food_data_repository.dart';
 import 'package:food_ppopgi/pages/splash/splash_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

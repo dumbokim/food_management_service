@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_ppopgi/common/common.dart';
+import 'package:food_ppopgi/data/food/food_data_repository.dart';
 import 'package:food_ppopgi/pages/main/random/random.dart';
 import 'package:food_ppopgi/pages/splash/splash_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

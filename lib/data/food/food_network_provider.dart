@@ -1,9 +1,14 @@
 import 'package:food_ppopgi/domain/food/model/adoption.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart' as riv;
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../domain/domain.dart';
+import '../../pages/splash/splash.dart';
+
+
+final foodProvider = riv.Provider<FoodProvider>(
+        (ref) => FoodNetworkProvider(database: ref.watch(database)));
 
 class FoodNetworkProvider implements FoodProvider {
   FoodNetworkProvider({
@@ -66,8 +71,3 @@ class FoodNetworkProvider implements FoodProvider {
     });
   }
 }
-
-final isarProvider = FutureProvider((ref) async {
-  final dir = await getApplicationDocumentsDirectory();
-  return Isar.open([AdoptionSchema], directory: dir.path);
-});

@@ -2,6 +2,11 @@ import 'package:food_ppopgi/domain/domain.dart';
 import 'package:food_ppopgi/domain/food/dto/food/menu_dto.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart' as riv;
 
+import 'food_network_provider.dart';
+
+final foodRepository = riv.Provider<FoodRepository>(
+    (ref) => FoodDataRepository(ref, foodProvider: ref.watch(foodProvider)));
+
 class FoodDataRepository implements FoodRepository {
   FoodDataRepository(
     this.ref, {

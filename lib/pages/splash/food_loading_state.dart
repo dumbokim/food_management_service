@@ -12,6 +12,12 @@ class FoodLoadingStateLoading extends FoodLoadingState {
 
 class FoodLoadingStateFailed extends FoodLoadingState {}
 
+class FoodLoadingStateNeedUpdate extends FoodLoadingState {
+  FoodLoadingStateNeedUpdate(this.downloadLink);
+
+  final String downloadLink;
+}
+
 class FoodLoadingStateFetched extends FoodLoadingState {
   FoodLoadingStateFetched({
     required this.foodList,

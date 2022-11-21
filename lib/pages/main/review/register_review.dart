@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:food_ppopgi/data/food/food_data_repository.dart';
 import 'package:food_ppopgi/domain/domain.dart';
-import 'package:food_ppopgi/pages/splash/splash_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../list/list.dart';
 import 'register_review_state.dart';
 
 class RegisterReviewPage extends ConsumerWidget {

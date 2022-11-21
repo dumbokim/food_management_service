@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:isar/isar.dart';
 
 import '../../common/common.dart';
+import '../splash/splash.dart';
 import 'adoption_list_state.dart';
 
 final adoptionNotifier =
