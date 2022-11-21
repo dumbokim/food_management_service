@@ -12,5 +12,5 @@ class Adoption {
   String? restaurant;
 
   @Index()
-  DateTime? adoptedDate;
+  int? adoptedDate;
 }

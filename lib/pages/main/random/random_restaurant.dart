@@ -171,10 +171,13 @@ class _RandomRestaurantPageState extends ConsumerState<RandomRestaurantPage> {
 
                           final adoptedList = await isar.adoptions
                               .where()
-                              .adoptedDateGreaterThan(DateTime.now())
+                              .adoptedDateGreaterThan(DateTime.now()
+                                  .subtract(Duration(days: 7))
+                                  .millisecondsSinceEpoch)
                               .findAll();
 
-                          final adoptedIds = adoptedList.map((e) => e.id);
+                          final adoptedIds =
+                              adoptedList.map((e) => e.restaurantId);
 
                           final datas = List<RestaurantDto>.from(restaurantList)
                               .where(
@@ -182,8 +185,12 @@ class _RandomRestaurantPageState extends ConsumerState<RandomRestaurantPage> {
                               .toList();
 
                           datas.shuffle();
+                          datas.shuffle();
 
-                          selected.add(datas[0].id);
+                          final a = restaurantList.indexWhere(
+                              (element) => element.id == datas[0].id);
+
+                          selected.add(a);
 
                           _timer = Timer(const Duration(seconds: 2), () {
                             setState(() {
@@ -202,7 +209,9 @@ class _RandomRestaurantPageState extends ConsumerState<RandomRestaurantPage> {
                               final targetId =
                                   restaurantList[_selectedIndex].id;
 
-                              await repository.adoptRestaurant(targetId);
+                              setState(() {
+                                _adoptButtonDisabled = true;
+                              });
 
                               showDefaultSnackBar(context,
                                   content: '메뉴가 채택되었습니다!');
@@ -213,20 +222,23 @@ class _RandomRestaurantPageState extends ConsumerState<RandomRestaurantPage> {
                                 ..restaurantId = targetId
                                 ..restaurant =
                                     restaurantList[_selectedIndex].name
-                                ..adoptedDate = (DateTime.now());
+                                ..adoptedDate =
+                                    (DateTime.now().millisecondsSinceEpoch);
 
                               await isar.writeTxn(() async =>
                                   await isar.adoptions.put(adoptionData));
 
-                              setState(() {
-                                _adoptButtonDisabled = true;
-                              });
+                              await repository.adoptRestaurant(targetId);
                             } catch (e) {
                               developer.log('error occurred: $e');
                               showDefaultSnackBar(
                                 context,
                                 content: '오류가 발생했습니다.\n다시 시도해주세요.',
                               );
+
+                              setState(() {
+                                _adoptButtonDisabled = false;
+                              });
                             }
                           },
                         ),

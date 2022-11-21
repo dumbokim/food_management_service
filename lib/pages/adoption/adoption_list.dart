@@ -31,7 +31,8 @@ class AdoptionListPage extends ConsumerWidget {
                     children: [
                       Text('${noti.dataList[index].id}번째 채택'),
                       Text('${noti.dataList[index].restaurant}'),
-                      Text('${noti.dataList[index].adoptedDate}'),
+                      Text(
+                          '${DateTime.fromMillisecondsSinceEpoch(noti.dataList[index].adoptedDate ?? 0)}'),
                     ],
                   ),
                 );
