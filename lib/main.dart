@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return riv.ProviderScope(
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Food management service',
         theme: ThemeData(
           primarySwatch: MaterialColor(

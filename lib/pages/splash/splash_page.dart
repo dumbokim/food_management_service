@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:food_ppopgi/data/food/food_data_repository.dart';
-import 'package:food_ppopgi/data/food/food_network_provider.dart';
 import 'package:food_ppopgi/data/setting/setting.dart';
 import 'package:food_ppopgi/domain/domain.dart';
 import 'package:food_ppopgi/domain/food/model/adoption.dart';
+import 'package:food_ppopgi/domain/food/model/review.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart' as riv;
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
@@ -18,7 +18,7 @@ final database = riv.Provider((ref) => Supabase.instance.client);
 
 final isarProvider = riv.FutureProvider((ref) async {
   final dir = await getApplicationDocumentsDirectory();
-  return Isar.open([AdoptionSchema], directory: dir.path);
+  return Isar.open([AdoptionSchema, ReviewSchema], directory: dir.path);
 });
 
 final foodLoadingNotifier = riv.StateNotifierProvider
