@@ -15,7 +15,11 @@ const supabaseUrl = 'https://spvzivxrznsrgqdanbbh.supabase.co';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  Admob.initialize();
+  Admob.initialize(
+    testDeviceIds: [
+      'CDB822C5370ABACD9F9DF7A4A596A0C4',
+    ],
+  );
 
   await dotenv.load(fileName: ".env");
 
