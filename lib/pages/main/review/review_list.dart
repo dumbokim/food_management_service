@@ -4,6 +4,8 @@ import 'package:food_ppopgi/domain/food/model/review.dart';
 import 'package:food_ppopgi/pages/main/main.dart';
 import 'package:food_ppopgi/pages/splash/splash_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../common/common.dart';
 
@@ -32,14 +34,12 @@ class ReviewListPage extends ConsumerWidget {
         centerTitle: true,
       ),
       floatingActionButton: RegisterButton(
-        onTap: () {
-          Navigator.pushNamed(context, '/restaurant/review/register')
-              .then((value) {
-            if (value == null) {
-              return;
-            }
-            read.load();
-          });
+        onTap: () async {
+          _showAlertDialog(
+            context,
+            ref,
+            read: read,
+          );
         },
         text: '리뷰 작성',
       ),
@@ -184,5 +184,84 @@ class ReviewListPage extends ConsumerWidget {
         );
       },
     );
+  }
+
+  _showAlertDialog(
+    BuildContext context,
+    WidgetRef ref, {
+    required ReviewListStateNotifier read,
+  }) async {
+    final pref = await SharedPreferences.getInstance();
+
+    final isConsent = pref.getBool('reviewTermAccept') ?? false;
+
+    if (isConsent) {
+      Navigator.pushNamed(context, '/restaurant/review/register').then((value) {
+        if (value == null) {
+          return;
+        }
+        read.load();
+      });
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 15,
+                vertical: 15,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SizedBox(height: 20),
+                  const Text(
+                    '이용 약관에 따라 불쾌감을 주는 리뷰의 경우, 서비스 이용의 불이익을 받을 수 있습니다.\n해당 약관에 동의하시겠습니까?',
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  GestureDetector(
+                    onTap: () {
+                      launchUrlString(
+                          'https://tar-cycle-2b3.notion.site/ed28d6c59a55417199050978caf8497a');
+                    },
+                    child: const Text(
+                      '이용 약관 확인',
+                      style: TextStyle(fontSize: 15, color: Color(0xFF6508DF)),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('취소')),
+                      TextButton(
+                          onPressed: () async {
+                            Navigator.pushNamed(
+                                    context, '/restaurant/review/register')
+                                .then((value) {
+                              if (value == null) {
+                                return;
+                              }
+                              read.load();
+                            });
+                          },
+                          child: const Text('수락')),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          );
+        },
+      );
+    }
   }
 }

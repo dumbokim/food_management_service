@@ -40,19 +40,19 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Food management service',
         theme: ThemeData(
-          primarySwatch: MaterialColor(
+          primarySwatch: const MaterialColor(
             0xFF6508DF,
-            const <int, Color>{
-              50: const Color(0xFF6508DF),
-              100: const Color(0xFF6508DF),
-              200: const Color(0xFF6508DF),
-              300: const Color(0xFF6508DF),
-              400: const Color(0xFF6508DF),
-              500: const Color(0xFF6508DF),
-              600: const Color(0xFF6508DF),
-              700: const Color(0xFF6508DF),
-              800: const Color(0xFF6508DF),
-              900: const Color(0xFF6508DF),
+            <int, Color>{
+              50: Color(0xFF6508DF),
+              100: Color(0xFF6508DF),
+              200: Color(0xFF6508DF),
+              300: Color(0xFF6508DF),
+              400: Color(0xFF6508DF),
+              500: Color(0xFF6508DF),
+              600: Color(0xFF6508DF),
+              700: Color(0xFF6508DF),
+              800: Color(0xFF6508DF),
+              900: Color(0xFF6508DF),
             },
           ),
         ),

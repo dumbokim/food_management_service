@@ -52,7 +52,6 @@ class _RegisterRequestPageState extends ConsumerState<RegisterRequestPage> {
                 content: '요청에 성공했습니다.\n빠른 시일내로 반영하도록 하겠습니다!',
               );
             } catch (e) {
-
               setState(() {
                 _loading = false;
               });
@@ -74,10 +73,11 @@ class _RegisterRequestPageState extends ConsumerState<RegisterRequestPage> {
               child: Column(
                 children: [
                   const Text(
-                    '필요한 기능이나 추가하고 싶은 음식점이 있으면 전달해주세요!',
+                    '필요한 기능이 있으면 의견을 전달해주세요!\n검토 후 적극 반영하도록 하겠습니다.',
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 16,
                       color: Colors.grey,
+                      height: 1.5,
                     ),
                   ),
                   const SizedBox(height: 35),
