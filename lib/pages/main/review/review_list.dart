@@ -70,9 +70,11 @@ class ReviewListPage extends ConsumerWidget {
                         },
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
-                            onLongPress: () async => _showDeleteDialog(
-                                context, ref,
-                                id: state.reviewList[index].id),
+                            onLongPress: () => _showSelectionDialog(
+                              context,
+                              ref,
+                              id: state.reviewList[index].id,
+                            ),
                             child: Container(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 20,
@@ -124,6 +126,159 @@ class ReviewListPage extends ConsumerWidget {
     );
   }
 
+  _showSelectionDialog(
+    BuildContext context,
+    WidgetRef ref, {
+    required int id,
+  }) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 15,
+              vertical: 25,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      _showReportDialog(context, ref, id: id);
+                    },
+                    child: const Text(
+                      '신고하기',
+                      style: TextStyle(fontSize: 18),
+                    )),
+                const SizedBox(height: 12),
+                TextButton(
+                    onPressed: () async {
+                      Navigator.pop(context);
+                      _showDeleteDialog(context, ref, id: id);
+                    },
+                    child: const Text(
+                      '즉시 차단하기',
+                      style: TextStyle(fontSize: 18),
+                    )),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  _showReportDialog(
+    BuildContext context,
+    WidgetRef ref, {
+    required int id,
+  }) {
+    String content = 'UNPLEASANT';
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return Dialog(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 15,
+                    vertical: 15,
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SizedBox(height: 20),
+                      const Text(
+                        '리뷰를 신고하시겠습니까?',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      const Text(
+                        '*신고하면 해당 유저는 운영 정책에 따라 제재를 받을 수 있습니다.',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            '사유: ',
+                            style: TextStyle(color: Color(0xFF6508DF)),
+                          ),
+                          DropdownButton<String>(
+                            value: content,
+                            enableFeedback: true,
+                            items: const [
+                              DropdownMenuItem<String>(
+                                value: 'UNPLEASANT',
+                                child: Text('불쾌한 내용'),
+                              ),
+                              DropdownMenuItem<String>(
+                                value: 'UNRELATED',
+                                child: Text('관련 없는 내용'),
+                              ),
+                              DropdownMenuItem<String>(
+                                value: 'USELESS',
+                                child: Text('유용하지 않은 내용'),
+                              ),
+                            ],
+                            onChanged: (value) {
+                              setState(() {
+                                content = value!;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text('취소')),
+                          TextButton(
+                              onPressed: () async {
+                                try {
+                                  await ref.watch(foodRepository).reportReview(
+                                        reviewId: id,
+                                        reason: content,
+                                      );
+
+                                  showDefaultSnackBar(
+                                    context,
+                                    content: '신고가 완료되었습니다.',
+                                  );
+                                } catch (e) {
+                                  showDefaultSnackBar(context,
+                                      content: '오류가 발생했습니다.');
+                                } finally {
+                                  Navigator.pop(context);
+                                }
+                              },
+                              child: const Text('신고')),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        });
+  }
+
   _showDeleteDialog(
     BuildContext context,
     WidgetRef ref, {
@@ -168,6 +323,10 @@ class ReviewListPage extends ConsumerWidget {
                             await isar.writeTxn(
                                 () async => await isar.reviews.put(reviewData));
                             ref.refresh(notifier);
+                            showDefaultSnackBar(
+                              context,
+                              content: '차단이 완료되었습니다.',
+                            );
                           } catch (e) {
                             showDefaultSnackBar(context,
                                 content: '오류가 발생했습니다.');

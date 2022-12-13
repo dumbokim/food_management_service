@@ -26,4 +26,10 @@ abstract class FoodRepository {
   Future<void> registerReview(RegisterReviewDto reviewDto);
 
   Future<void> registerRequest(String content);
+
+  Future<void> reportReview({
+    required int reviewId,
+    required String reason,
+    String detail,
+  });
 }

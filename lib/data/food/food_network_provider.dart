@@ -1,14 +1,10 @@
-import 'package:food_ppopgi/domain/food/model/adoption.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart' as riv;
-import 'package:isar/isar.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../domain/domain.dart';
 import '../../pages/splash/splash.dart';
 
-
 final foodProvider = riv.Provider<FoodProvider>(
-        (ref) => FoodNetworkProvider(database: ref.watch(database)));
+    (ref) => FoodNetworkProvider(database: ref.watch(database)));
 
 class FoodNetworkProvider implements FoodProvider {
   FoodNetworkProvider({
@@ -67,7 +63,16 @@ class FoodNetworkProvider implements FoodProvider {
   @override
   Future<void> registerRequest(String content) async {
     await database.from('request').insert({
-      'content' : content,
+      'content': content,
+    });
+  }
+
+  @override
+  Future<void> reportReview(ReportDto reportDto) async {
+    await database.from('report').insert({
+      'target_id': reportDto.targetId,
+      'type': reportDto.type,
+      'reason': reportDto.reason,
     });
   }
 }

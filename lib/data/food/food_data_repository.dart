@@ -138,4 +138,17 @@ class FoodDataRepository implements FoodRepository {
   Future<void> registerRequest(String content) async {
     return await foodProvider.registerRequest(content);
   }
+
+  @override
+  Future<void> reportReview({
+    required int reviewId,
+    required String reason,
+    String detail = '',
+  }) async {
+    await foodProvider.reportReview(ReportDto(
+      targetId: reviewId,
+      type: 'REVIEW',
+      reason: reason,
+    ));
+  }
 }
